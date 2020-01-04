@@ -1,0 +1,39 @@
+Personal finance is a simple way to keep traking of your spending and earnings
+
+Classes :
+    Income :
+        desc => represent income stream (salaries)
+        Fields :
+            Name => name of the income (Main job, Renting, freelancing ....)
+            Description => description of the Income
+            Amount => the amount of money the income is generating
+            Steady => the imcome is always generated each period of time
+            PaymentScheduale => how the payment is set (each month, other month, trimister)
+            Payday => the day of the payment is set
+            Tax => tax of the income
+        
+    Expense :
+        desc => the different expances (groceries, rent, gas, morgage)
+        Fields :
+            Name => Expance name
+            Description => description of the expance
+            Amount => how much it costed
+            Steady => is the payment set to be taken every month
+            PaymentScheduale => how the payment is set (each month, other month, trimister)
+            Payday => the day of the payment is set
+            Tax => tax of the income
+
+    User :
+        desc => the user
+        Fields :
+            Firstname, Lastname, Email, Phone, Birthday, Photo, Bio
+
+
+
+Keeping tabs :
+    User registration is done, seems like it's all good but you never know
+
+
+Next :
+    User email verification
+    Incomes CRUD (you know the deal)
