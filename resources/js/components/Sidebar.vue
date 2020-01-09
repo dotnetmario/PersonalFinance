@@ -30,8 +30,8 @@
 
             <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                 <div class="bg-white py-2 collapse-inner rounded">
-                    <a class="collapse-item" href="buttons.html">Buttons</a>
-                    <router-link :to="{ name: 'incomes'}" class="collapse-item">Stats</router-link>
+                    <router-link :to="{ name: 'incomes'}" class="collapse-item">General</router-link>
+                    <router-link :to="{ name: 'incomes-details'}" class="collapse-item">List of Incomes</router-link>
                 </div>
             </div>
         </li>

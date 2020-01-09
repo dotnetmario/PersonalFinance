@@ -17,7 +17,10 @@ const actions = {
             headers: { 
                 Authorization: `Bearer ${data.token}`,
                 "Content-Type" : "application/json",
-            }
+            },
+            "year": data['year'].toString(),
+            "month": data['month'].toString(),
+            "day": data['day'].toString(),
         })
         .catch(e => {
             console.log(e)

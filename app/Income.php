@@ -137,15 +137,55 @@ class Income extends Model
     public function userIncomeDate($user, $params)
     {
         $day = $params["day"] ?? null; $month = $params["month"] ?? null; $year = $params["year"] ?? null; $limit = $params["limit"] ?? null;
-        // day income
+        // // day income
+        // if(isset($day) && $day){
+        //     if(isset($limit) && $limit){
+        //         return Income::where("user", $user)
+        //                 ->whereDay('created_at', $day)
+        //                 ->paginate($limit);
+        //     }
+        //     return Income::where("user", $user)
+        //             ->whereDay('created_at', $day)
+        //             ->get();
+        // }
+
+        // // month income
+        // if(isset($month) && $month){
+        //     if(isset($limit) && $limit){
+        //         return Income::where("user", $user)
+        //                 ->whereMonth('created_at', $month)
+        //                 ->paginate($limit);
+        //     }
+        //     return Income::where("user", $user)
+        //             ->whereMonth('created_at', $month)
+        //             ->get();
+        // }
+
+        // // year income
+        // if(isset($year) && $year){
+        //     if(isset($limit) && $limit){
+        //         return Income::where("user", $user)
+        //                 ->whereYear('created_at', $year)
+        //                 ->paginate($limit);
+        //     }
+        //     return Income::where("user", $user)
+        //             ->whereYear('created_at', $year)
+        //             ->get();
+        // }
+
         if(isset($day) && $day){
+            // $date = date('Y-m-d', new DateTime($year.'-'.$month.'-'.$day));
             if(isset($limit) && $limit){
                 return Income::where("user", $user)
                         ->whereDay('created_at', $day)
+                        ->whereMonth('created_at', $month)
+                        ->whereYear('created_at', $year)
                         ->paginate($limit);
             }
             return Income::where("user", $user)
                     ->whereDay('created_at', $day)
+                    ->whereMonth('created_at', $month)
+                    ->whereYear('created_at', $year)
                     ->get();
         }
 
@@ -154,10 +194,12 @@ class Income extends Model
             if(isset($limit) && $limit){
                 return Income::where("user", $user)
                         ->whereMonth('created_at', $month)
+                        ->whereYear('created_at', $year)
                         ->paginate($limit);
             }
             return Income::where("user", $user)
                     ->whereMonth('created_at', $month)
+                    ->whereYear('created_at', $year)
                     ->get();
         }
 

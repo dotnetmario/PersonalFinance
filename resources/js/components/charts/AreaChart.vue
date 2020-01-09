@@ -10,7 +10,7 @@
                 </a>
                 <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuLink">
                     <div class="dropdown-header">Dropdown Header:</div>
-                    <a class="dropdown-item" href="#">Action</a>
+                    <button class="dropdown-item" @click="getIcomesData">Action</button>
                     <a class="dropdown-item" href="#">Another action</a>
                     <div class="dropdown-divider"></div>
                     <a class="dropdown-item" href="#">Something else here</a>
@@ -29,11 +29,44 @@
 </template>
 
 <script>
-export default {
+import areaChart from '@/js/scripts/chartsdata.js';
 
+export default {
+    name: 'area-chart',
+    data(){
+        return {
+            areaChart,
+        }
+    },
+    methods: {
+        createChart(chartId, chartData) {
+            chartData.data["datasets"][0]["data"] = [0, 10000, 5000, 15000, 10000, 20000, 15000, 25000, 20000, 30000, 25000, 40000];
+            chartData.data["labels"] = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+            console.log(chartData);
+            const ctx = document.getElementById(chartId);
+            const myChart = new Chart(ctx, {
+                type: chartData.type,
+                data: chartData.data,
+                options: chartData.options,
+            });
+        },
+        getIcomesData(){
+            this.$store.dispatch("getIncomes", {
+                "year" : 2019,
+                "month" : null,
+                "day" : null,
+            });
+        },
+    },
+    mounted() {
+        this.createChart('myAreaChart', this.areaChart);
+    }
 }
 </script>
 
-<style>
+<style scoped>
 
+#myAreaChart{
+    height: 100%;
+}
 </style>

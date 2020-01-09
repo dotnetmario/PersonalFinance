@@ -41,11 +41,14 @@ class GetIncomesRequest extends FormRequest
     public function rules()
     {
         return [
-            'user' => 'required|numeric',
+            // 'user' => 'required|numeric',
             'limit' => 'nullable|numeric',
-            'day' => 'required_without:month,year|numeric',
-            'month' => 'required_without:day,year|numeric',
-            'year' => 'required_without:month,day|numeric',
+            // 'day' => 'required_without:month,year|numeric|nullable',
+            // 'month' => 'required_without:day,year|numeric|nullable',
+            // 'year' => 'required_without:month,day|numeric|nullable',
+            'day' => 'numeric|nullable',
+            'month' => 'required_with:day|numeric|nullable',
+            'year' => 'required|numeric|nullable',
         ];
     }
 

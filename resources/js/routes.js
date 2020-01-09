@@ -6,6 +6,7 @@ import Register from '@/js/pages/register';
 // main app pages
 import Home from '@/js/pages/Home';
 import Incomes from '@/js/pages/Incomes';
+import IncomesDetails from '@/js/pages/IncomesDetails';
 import Dashboard from '@/js/pages/Dashboard';
 import Expenses from '@/js/pages/Expenses';
 
@@ -22,6 +23,9 @@ const router = new VueRouter({
 
         // income routes
         {path: '/incomes', name: 'incomes', component: Incomes},
+        {path: '/incomes-details', name: 'incomes-details', component: IncomesDetails},
+
+
         // expenses routes
         {path: '/expenses', name: 'expenses', component: Expenses},
     ],

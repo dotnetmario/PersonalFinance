@@ -11,6 +11,7 @@ use App\User;
 use App\Http\Requests\Income\AddIncomeRequest;
 use App\Http\Requests\Income\ManageIncomesRequest;
 use App\Http\Requests\Income\GetIncomesRequest;
+use \Auth;
 
 class IncomesController extends Controller
 {
@@ -84,18 +85,19 @@ class IncomesController extends Controller
     public function incomes(GetIncomesRequest $request)
     {
         $params = $request->all();
+        $user = Auth::id();
 
         $incomes = new Income;
         $incomes = $incomes->userIncomeDate($user, $params);
 
-        if(!empty($income->id)){
+        if(!empty($incomes)){
             return response()->json([
-                'income' => $income,
+                'incomes' => $incomes,
                 'message' => trans('income.incomes'),
             ], 201);
         }else{
             return response()->json([
-                'income' => $income,
+                'incomes' => $incomes,
                 'message' => trans('app.something_went_wrong'),
             ], 500);
         }

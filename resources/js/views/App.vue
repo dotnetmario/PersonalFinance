@@ -21,6 +21,8 @@
 </template>
 
 <script>
+// import chart.js
+import Chart from 'chart.js';
 import Sidebar from '@/js/components/Sidebar';
 import Navbar from '@/js/components/Navbar';
 
