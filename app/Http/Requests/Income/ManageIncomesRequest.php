@@ -36,7 +36,7 @@ class ManageIncomesRequest extends FormRequest
 
     /**
      * Get the validation rules that apply to the request.
-     *"user", "name", "amount", "steady", "pay_schedule", "payday", "tax", "description",
+     *"user", "name", "price", "steady", "pay_schedule", "pay_date", "tax", "description",
      * @return array
      * 
      */
@@ -46,12 +46,12 @@ class ManageIncomesRequest extends FormRequest
             return [
                 "user" => 'required|numeric',
                 "name" => 'required|string',
-                "amount" => "required|regex:/^\d{1,8}(\.\d{1,2})?$/|between:0.01,99999999.99",
+                "price" => "required|regex:/^\d{1,8}(\.\d{1,2})?$/|between:0.01,99999999.99",
                 "steady" => 'sometimes|boolean',
                 "pay_schedule" => ['required_if:steady,true',
                                     Rule::in(['monthly', 'bimonthly', 'trimonthly', 'semiannually', 'yearly'])
                                 ],
-                "payday" => 'required_if:steady,true|date',
+                "pay_date" => 'required_if:steady,true|date',
                 "tax" => 'numeric|sometimes',
                 "description" => 'string|sometimes',
             ];
@@ -60,12 +60,12 @@ class ManageIncomesRequest extends FormRequest
                 "income" => 'numeric|required',
                 "user" => 'required|numeric',
                 "name" => 'required|string',
-                "amount" => "required|regex:/^\d{1,8}(\.\d{1,2})?$/|between:0.01,99999999.99",
+                "price" => "required|regex:/^\d{1,8}(\.\d{1,2})?$/|between:0.01,99999999.99",
                 "steady" => 'sometimes|boolean',
                 "pay_schedule" => ['required_if:steady,true',
                                     Rule::in(['monthly', 'bimonthly', 'trimonthly', 'semiannually', 'yearly'])
                                 ],
-                "payday" => 'required_if:steady,true|date',
+                "pay_date" => 'required_if:steady,true|date',
                 "tax" => 'numeric|sometimes',
                 "description" => 'string|sometimes',
             ];

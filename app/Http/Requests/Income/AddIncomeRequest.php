@@ -36,10 +36,10 @@ class AddIncomeRequest extends FormRequest
         return [
             "user" => "required|numeric",
             "name" => "required",
-            "amount" => "required|numeric",
+            "price" => "required|numeric",
             "steady" => "boolean",
             "pay_schedule" => [Rule::in(['monthly', 'bimonthly', 'trimonthly', 'semiannually', 'yearly'])],
-            "payday" => "integer",
+            "pay_date" => "integer",
             "tax" => "integer",
             "desc" => "max:2000",
         ];
@@ -56,11 +56,11 @@ class AddIncomeRequest extends FormRequest
             "user.required" => trans('income.user_required'),
             "user.numeric" => trans('income.user_numeric'),
             "name.required" => trans('income.name_required'),
-            "amount.required" => trans('income.amount_required'),
-            "amount.numeric" => trans('income.amount_numeric'),
+            "price.required" => trans('income.price_required'),
+            "price.numeric" => trans('income.price_numeric'),
             "steady.boolean" => trans('income.steady_boolean'),
             "pay_schedule.in" => trans('income.pay_schedule_in'),
-            "payday.integer" => trans('income.payday_integer'),
+            "pay_date.integer" => trans('income.pay_date_integer'),
             "tax.integer" => trans('income.tax_integer'),
             "desc.max" => trans('income.desc_max'),
         ];

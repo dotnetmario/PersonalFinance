@@ -29,8 +29,7 @@ Route::group(['prefix' => 'auth'], function () {
         Route::get('logout', 'AuthController@logout');
     });
 });
-
-
+Route::get('x', 'IncomesController@x');
 Route::group(['prefix' => 'incomes', 'middleware' => 'auth:api'], function() {
     // get incomes an income
     Route::post('/', 'IncomesController@incomes');

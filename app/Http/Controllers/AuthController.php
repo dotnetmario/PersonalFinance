@@ -49,7 +49,7 @@ class AuthController extends Controller
         // return response utf8_encode(
         if($user['status']){
             return response()->json([
-                // "access_token" => $user['access_token'].toJson(),
+                "access_token" => $user['access_token'],
                 // "expires_at" => $user['expires_at'].toJson(),array_map("utf8_encode", $inputArray );
                 "user" => array_map("utf8_encode", $user),
                 "message" => trans('login.user_logged_in'),

@@ -7,11 +7,14 @@ use Illuminate\Http\Request;
 // models
 use App\Income;
 use App\User;
+use App\IncomeTransaction;
+use App\ExpenceTransaction;
+use App\Balance;
 
 use App\Http\Requests\Income\AddIncomeRequest;
 use App\Http\Requests\Income\ManageIncomesRequest;
 use App\Http\Requests\Income\GetIncomesRequest;
-use \Auth;
+use Illuminate\Support\Facades\Auth;
 
 class IncomesController extends Controller
 {
@@ -101,5 +104,51 @@ class IncomesController extends Controller
                 'message' => trans('app.something_went_wrong'),
             ], 500);
         }
+    }
+
+    /**
+     * x
+     */
+    public function x(Request $request)
+    {
+        // $schedule = \App\IncomeTransaction::makeRef();
+        // $user = new User;
+        // $user = $user->find(9);
+
+        // $income = $user->incomes()->take(10)->get();
+
+        // $income2 = new Income;
+        // $income2 = $income2->find(12);
+
+        // $user2 = Income::find(12)->user()->first();
+
+        
+
+
+        $transaction = new ExpenceTransaction;
+        $transaction = $transaction->transaction(1);
+        $expence = $transaction->expence()->first();
+        $type = "expence";
+        $name = $expence->name;
+
+        return view('mail.transactionmade', compact('transaction', 'type', 'name'));
+
+        $expence = $transaction->expence()->first();
+        $price = $expence->prices()->where('active', 1)->orderBy('id', 'DESC')->first();
+        $user = $expence->user()->first();
+
+        $balance = Balance::where('user', $user->id)->first();
+        $balance->last_expence_trans = $transaction->id;
+        $balance->balance -= $transaction->price;
+        $balance->save();
+
+        return response()->json([
+            'user' => $user,
+            'income' => $expence,
+            'transaction' => $transaction,
+            'price' => $price,
+            'balance' => $balance,
+            'message' => trans('income.incomes'),
+        ], 200);
     }
 }

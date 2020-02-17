@@ -25,7 +25,7 @@ const actions = {
         });
 
         localStorage.setItem("user", JSON.stringify(response.data.user));
-        localStorage.setItem("token", JSON.stringify(response.data.access_token));
+        localStorage.setItem("token", response.data.access_token);
         commit('user', response.data);
     }
 };

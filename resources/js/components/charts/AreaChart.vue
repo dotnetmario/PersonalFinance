@@ -30,9 +30,13 @@
 
 <script>
 import areaChart from '@/js/scripts/chartsdata.js';
+import { mapGetters } from 'vuex';
 
 export default {
     name: 'area-chart',
+    computed: {
+        ...mapGetters(['token', 'user']),
+    },
     data(){
         return {
             areaChart,
@@ -51,12 +55,24 @@ export default {
             });
         },
         getIcomesData(){
+            console.log("get incomes data");
+            console.log(this.token);
             this.$store.dispatch("getIncomes", {
+                "token" : this.token,
                 "year" : 2019,
-                "month" : null,
-                "day" : null,
+                "month" : "",
+                "day" : "",
             });
         },
+        // login(){
+        //     this.$store.dispatch("login", {
+        //         'identifier' : this.identifier,
+        //         'password' : this.password,
+        //         'remember_me' : this.remember_me,
+        //     }).then(() => {
+        //         this.$router.push({ name: 'home' });
+        //     });
+        // },
     },
     mounted() {
         this.createChart('myAreaChart', this.areaChart);

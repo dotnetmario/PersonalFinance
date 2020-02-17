@@ -51,11 +51,20 @@ class User extends Authenticatable
         return $this->hasMany('App\Income', 'user');
     }
 
-    // has many incomes
-    public function expenses()
+    // balance
+    public function balance()
+    {
+        return $this->hasOne('App\Balance', 'user');
+    }
+
+    // balance
+    public function expences()
     {
         return $this->hasMany('App\Expence', 'user');
     }
+
+
+
 
     /**
      * get the type of identifier (email, phone)

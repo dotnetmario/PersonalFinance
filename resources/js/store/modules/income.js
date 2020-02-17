@@ -11,22 +11,20 @@ const getters = {
 };
 
 const actions = {
-    // incomes
     async getIncomes({ commit }, data){
-        const response = await axios.get(`/api/incomes/`, {
+        const response = await axios.post(`/api/incomes/`, {
+            "year": data['year'].toString(),
+            "month": data['month'].toString(),
+            "day": data['day'].toString(),
+        }, {
             headers: { 
                 Authorization: `Bearer ${data.token}`,
                 "Content-Type" : "application/json",
             },
-            "year": data['year'].toString(),
-            "month": data['month'].toString(),
-            "day": data['day'].toString(),
         })
         .catch(e => {
             console.log(e)
         });
-
-        console.log(response.data);
         commit('incomes', response.data);
     },
 };

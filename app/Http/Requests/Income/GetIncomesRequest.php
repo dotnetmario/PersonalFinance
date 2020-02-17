@@ -6,7 +6,7 @@ use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Validation\Rule;
-use Auth;
+use Illuminate\Support\Facades\Auth;
 
 class GetIncomesRequest extends FormRequest
 {
@@ -36,16 +36,10 @@ class GetIncomesRequest extends FormRequest
      *
      * @return array
      */
-    // $user, $day = null, $month = null, $year = null, $limit = null
-    // required_without:foo,bar,...
     public function rules()
     {
         return [
-            // 'user' => 'required|numeric',
             'limit' => 'nullable|numeric',
-            // 'day' => 'required_without:month,year|numeric|nullable',
-            // 'month' => 'required_without:day,year|numeric|nullable',
-            // 'year' => 'required_without:month,day|numeric|nullable',
             'day' => 'numeric|nullable',
             'month' => 'required_with:day|numeric|nullable',
             'year' => 'required|numeric|nullable',

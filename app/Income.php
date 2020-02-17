@@ -13,7 +13,7 @@ class Income extends Model
     protected $table = "incomes";
 
     protected $fillable = [
-        "user", "name", "amount", "steady", "pay_schedule", "payday", "tax", "description",
+        "user", "name", "steady", "pay_schedule", "pay_date", "tax", "description",
     ];
 
     /**
@@ -21,9 +21,22 @@ class Income extends Model
      */
 
     //  belongs to
+    // user owner of the income
     public function user()
     {
         return $this->belongsTo('App\User', 'user');
+    }
+
+    // has many transactions
+    public function transactions()
+    {
+        return $this->hasMany('App\IncomeTransaction', 'income');
+    }
+
+    // has many prices
+    public function prices()
+    {
+        return $this->hasMany('App\IncomePrice', 'income');
     }
 
 
@@ -52,10 +65,10 @@ class Income extends Model
         return Income::create([
             "user" => $params['user'],
             "name" => $params['name'],
-            "amount" => $params['amount'],
+            // "price" => $params['price'],
             "steady" => $params['steady'] ?? false,
             "pay_schedule" => $params['pay_schedule'] ?? null,
-            "payday" => $params['payday'] ?? null,
+            "pay_date" => $params['pay_date'] ?? null,
             "tax" => $params['tax'] ?? 0,
             "description" => $params['description'] ?? null,
         ]);
@@ -73,10 +86,10 @@ class Income extends Model
         return Income::where("id", $id)->update([
             "user" => $params['user'],
             "name" => $params['name'],
-            "amount" => $params['amount'],
+            // "price" => $params['price'],
             "steady" => $params['steady'] ?? false,
             "pay_schedule" => $params['pay_schedule'] ?? null,
-            "payday" => $params['payday'] ?? null,
+            "pay_date" => $params['pay_date'] ?? null,
             "tax" => $params['tax'] ?? 0,
             "description" => $params['description'] ?? null,
         ]);

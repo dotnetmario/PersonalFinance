@@ -13,7 +13,7 @@ class Expence extends Model
     protected $table = "expences";
 
     protected $fillable = [
-        "user", "name", "amount", "steady", "pay_schedule", "payday", "tax", "description",
+        "user", "name", "steady", "pay_schedule", "pay_date", "tax", "description",
     ];
 
     /**
@@ -21,8 +21,21 @@ class Expence extends Model
      */
 
     //  belongs to
+    // user owner of the expence
     public function user()
     {
         return $this->belongsTo('App\User', 'user');
+    }
+
+    // has many transactions
+    public function transactions()
+    {
+        return $this->hasMany('App\ExpenceTransaction', 'expence');
+    }
+
+    // has many prices
+    public function prices()
+    {
+        return $this->hasMany('App\ExpencePrice', 'expence');
     }
 }
