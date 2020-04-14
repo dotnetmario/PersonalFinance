@@ -11,36 +11,14 @@ use App\IncomeTransaction;
 use App\ExpenceTransaction;
 use App\Balance;
 
-use App\Http\Requests\Income\AddIncomeRequest;
+// requests
 use App\Http\Requests\Income\ManageIncomesRequest;
 use App\Http\Requests\Income\GetIncomesRequest;
+
 use Illuminate\Support\Facades\Auth;
 
 class IncomesController extends Controller
 {
-    /**
-     * add an income
-     * route => api (/incomes/add)
-     */
-    public function add(AddIncomeRequest $request)
-    {
-        $params = $request->all();
-
-        $income = (new Income)->add($params);
-
-        if($income){
-            return response()->json([
-                "income" => $income,
-                "message" => trans('income.income_added'),
-            ], 201);
-        }else{
-            return response()->json([
-                "income" => null,
-                "message" => trans('app.something_went_wrong'),
-            ], 500);
-        }
-    }
-
     /**
      * manage incomes (add/edit/delete)
      * 
@@ -51,20 +29,26 @@ class IncomesController extends Controller
         // get all the request params 
         $params = $request->all();
         $income = new Income;
+        $user = Auth::id();
+
         $message = trans('app.something_went_wrong');
+        $code = 500;
 
         // add request
         if($request->action === "add"){
-            $income = $income->add($params);
+            $income = $income->add($user, $params);
             $message = trans('income.income_added');
+            $code = 201;
 
         }else if($request->action === "update"){ // update request
             $income = $income->edit($params['income'], $params);
             $message = trans('income.income_updated');
+            $code = 200;
 
         }else if($request->action === "delete"){ // delete request
             $income = $income->softDelete($params['income']);
             $message = trans('income.income_deleted');
+            $code = 200;
 
         }
 
@@ -72,12 +56,12 @@ class IncomesController extends Controller
             return response()->json([
                 'income' => $income,
                 'message' => $message
-            ], 201);
+            ], $code);
         }else{
             return response()->json([
                 'income' => $income,
                 'message' => $message
-            ], 500);
+            ], $code);
         }
     }
 
@@ -89,9 +73,13 @@ class IncomesController extends Controller
     {
         $params = $request->all();
         $user = Auth::id();
-
         $incomes = new Income;
-        $incomes = $incomes->userIncomeDate($user, $params);
+
+        if(!isset($request->income)){
+            $incomes = $incomes->userIncomeDate($user, $params);
+        }else{
+            $incomes = $incomes->income($request->income);
+        }
 
         if(!empty($incomes)){
             return response()->json([
@@ -125,30 +113,42 @@ class IncomesController extends Controller
         
 
 
-        $transaction = new ExpenceTransaction;
-        $transaction = $transaction->transaction(1);
-        $expence = $transaction->expence()->first();
-        $type = "expence";
-        $name = $expence->name;
+        // $transaction = new ExpenceTransaction;
+        // $transaction = $transaction->transaction(1);
+        // $expence = $transaction->expence()->first();
+        // $type = "expence";
+        // $name = $expence->name;
 
-        return view('mail.transactionmade', compact('transaction', 'type', 'name'));
+        // return view('mail.transactionmade', compact('transaction', 'type', 'name'));
 
-        $expence = $transaction->expence()->first();
-        $price = $expence->prices()->where('active', 1)->orderBy('id', 'DESC')->first();
-        $user = $expence->user()->first();
+        // $expence = $transaction->expence()->first();
+        // $price = $expence->prices()->where('active', 1)->orderBy('id', 'DESC')->first();
+        // $user = $expence->user()->first();
 
-        $balance = Balance::where('user', $user->id)->first();
-        $balance->last_expence_trans = $transaction->id;
-        $balance->balance -= $transaction->price;
-        $balance->save();
+        // $balance = Balance::where('user', $user->id)->first();
+        // $balance->last_expence_trans = $transaction->id;
+        // $balance->balance -= $transaction->price;
+        // $balance->save();
 
-        return response()->json([
-            'user' => $user,
-            'income' => $expence,
-            'transaction' => $transaction,
-            'price' => $price,
-            'balance' => $balance,
-            'message' => trans('income.incomes'),
-        ], 200);
+        // return response()->json([
+        //     'user' => $user,
+        //     'income' => $expence,
+        //     'transaction' => $transaction,
+        //     'price' => $price,
+        //     'balance' => $balance,
+        //     'message' => trans('income.incomes'),
+        // ], 200);
+
+        // $incomes = Income::all();
+
+        // foreach($incomes as $i){
+        //     $i->created_at = \Carbon\Carbon::now()->subDays(rand(1, 300));
+        //     $i->save();
+        // }
+
+        // return response()->json([
+        //     'user' => "done",
+        //     'message' => trans('income.incomes'),
+        // ], 200);
     }
 }

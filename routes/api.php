@@ -18,9 +18,9 @@ use Illuminate\Http\Request;
 // });
 
 Route::group(['prefix' => 'auth'], function () {
-    //login route
+    //login route (done)
     Route::post('login', 'AuthController@login');
-    //register route
+    //register route (done)
     Route::post('register', 'AuthController@register');
   
     //connected only routes
@@ -30,9 +30,34 @@ Route::group(['prefix' => 'auth'], function () {
     });
 });
 Route::get('x', 'IncomesController@x');
+// incomes routes
 Route::group(['prefix' => 'incomes', 'middleware' => 'auth:api'], function() {
-    // get incomes an income
+    // get incomes (done)
     Route::post('/', 'IncomesController@incomes');
-    // add an income
+    // add/edit/delete income (done)
     Route::post('/manage', 'IncomesController@manage');
+
+    // prices
+    Route::group(['prefix' => 'prices'], function() {
+        // get income prices (done)
+        Route::post('/', 'IncomePricesController@prices');
+        // manage income prices add/edit/delete (done)
+        Route::post('/manage', 'IncomePricesController@manage');
+    });
+
+    // transactions
+    Route::group(['prefix' => 'transactions'], function() {
+        // get income transactions (done)
+        Route::post('/', 'IncomeTransactionsController@transactions');
+        // manage income transactions add/edit/delete
+        Route::post('/manage', 'IncomeTransactionsController@manage');
+    });
+});
+
+// expences routes
+Route::group(['prefix' => 'expences', 'middleware' => 'auth:api'], function() {
+    // get expences
+    Route::post('/', 'ExpencesController@incomes');
+    // add/edit/delete expence
+    Route::post('/manage', 'ExpencesController@manage');
 });

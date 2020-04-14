@@ -11,5 +11,5 @@
 |
 */
 
-// Route::get('/{any}', 'SinglePageController@index')->where('any', '.*');
-Route::get('/{any}', 'IncomesController@x');
+Route::get('/{any}', 'SinglePageController@index')->where('any', '.*');
+// Route::get('/{any}', 'IncomesController@x');

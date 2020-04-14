@@ -44,6 +44,7 @@ class Income extends Model
      * validation
      * 
      * @param int user
+     * @param int income
      * @return boolean
      */
     public static function canModify($user, $income){
@@ -57,15 +58,15 @@ class Income extends Model
     /**
      * add a new income
      * 
+     * @param int user
      * @param array params
      * @return Income income
      */
-    public function add($params)
+    public function add($user, $params)
     {
         return Income::create([
-            "user" => $params['user'],
+            "user" => $user,
             "name" => $params['name'],
-            // "price" => $params['price'],
             "steady" => $params['steady'] ?? false,
             "pay_schedule" => $params['pay_schedule'] ?? null,
             "pay_date" => $params['pay_date'] ?? null,
@@ -79,14 +80,12 @@ class Income extends Model
      * 
      * @param int id
      * @param array params
-     * @return Income income
+     * @return boolean
      */
     public function edit($id, $params)
     {
         return Income::where("id", $id)->update([
-            "user" => $params['user'],
             "name" => $params['name'],
-            // "price" => $params['price'],
             "steady" => $params['steady'] ?? false,
             "pay_schedule" => $params['pay_schedule'] ?? null,
             "pay_date" => $params['pay_date'] ?? null,
@@ -99,6 +98,7 @@ class Income extends Model
      * softdelete an Income
      * 
      * @param int id
+     * @return boolean
      */
     public function softDelete($id)
     {
@@ -109,6 +109,7 @@ class Income extends Model
      * harddelete an income
      * 
      * @param int id
+     * @return boolean
      */
     public function hardDelete($id)
     {
@@ -118,6 +119,19 @@ class Income extends Model
     /**
      * Quering
      */
+
+     /**
+      * get income by id
+      * 
+      * @param int income
+      * @return Income
+      */
+    public function income($income)
+    {
+        $i = Income::find($income);
+        return empty($i) ? 0 : $i;
+    }
+
 
     /**
      * get users Incomes with or without pagination
@@ -150,44 +164,8 @@ class Income extends Model
     public function userIncomeDate($user, $params)
     {
         $day = $params["day"] ?? null; $month = $params["month"] ?? null; $year = $params["year"] ?? null; $limit = $params["limit"] ?? null;
-        // // day income
-        // if(isset($day) && $day){
-        //     if(isset($limit) && $limit){
-        //         return Income::where("user", $user)
-        //                 ->whereDay('created_at', $day)
-        //                 ->paginate($limit);
-        //     }
-        //     return Income::where("user", $user)
-        //             ->whereDay('created_at', $day)
-        //             ->get();
-        // }
-
-        // // month income
-        // if(isset($month) && $month){
-        //     if(isset($limit) && $limit){
-        //         return Income::where("user", $user)
-        //                 ->whereMonth('created_at', $month)
-        //                 ->paginate($limit);
-        //     }
-        //     return Income::where("user", $user)
-        //             ->whereMonth('created_at', $month)
-        //             ->get();
-        // }
-
-        // // year income
-        // if(isset($year) && $year){
-        //     if(isset($limit) && $limit){
-        //         return Income::where("user", $user)
-        //                 ->whereYear('created_at', $year)
-        //                 ->paginate($limit);
-        //     }
-        //     return Income::where("user", $user)
-        //             ->whereYear('created_at', $year)
-        //             ->get();
-        // }
 
         if(isset($day) && $day){
-            // $date = date('Y-m-d', new DateTime($year.'-'.$month.'-'.$day));
             if(isset($limit) && $limit){
                 return Income::where("user", $user)
                         ->whereDay('created_at', $day)

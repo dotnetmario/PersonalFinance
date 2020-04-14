@@ -1,14 +1,13 @@
 <?php
 
-namespace App\Http\Requests\Income;
+namespace App\Http\Requests\IncomePrices;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Http\Exceptions\HttpResponseException;
-use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Auth;
 
-class GetIncomesRequest extends FormRequest
+class GetIncomePricesRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -39,15 +38,12 @@ class GetIncomesRequest extends FormRequest
     public function rules()
     {
         return [
-            'limit' => 'nullable|numeric',
-            'day' => 'numeric|nullable',
-            'month' => 'required_with:day|numeric|nullable',
-            'year' => 'required|numeric|nullable',
-            'income' => 'sometimes|numeric',
+            "price" => "numeric",
+            "income" => "required_without:price|numeric"
         ];
     }
 
-     /**
+    /**
      * Custom error messages
      * 
      * @return array

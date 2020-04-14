@@ -18,6 +18,10 @@ class ManageIncomesRequest extends FormRequest
      */
     public function authorize()
     {
+        if(!isset($this->action)){
+            return false;
+        }
+
         if($this->action === "add"){
             return Auth::guard('api')->check();
         }else if($this->action === "update" || $this->action === "delete"){
@@ -36,7 +40,7 @@ class ManageIncomesRequest extends FormRequest
 
     /**
      * Get the validation rules that apply to the request.
-     *"user", "name", "price", "steady", "pay_schedule", "pay_date", "tax", "description",
+     *
      * @return array
      * 
      */
@@ -44,28 +48,24 @@ class ManageIncomesRequest extends FormRequest
     {
         if($this->action === "add"){
             return [
-                "user" => 'required|numeric',
                 "name" => 'required|string',
-                "price" => "required|regex:/^\d{1,8}(\.\d{1,2})?$/|between:0.01,99999999.99",
                 "steady" => 'sometimes|boolean',
                 "pay_schedule" => ['required_if:steady,true',
                                     Rule::in(['monthly', 'bimonthly', 'trimonthly', 'semiannually', 'yearly'])
                                 ],
-                "pay_date" => 'required_if:steady,true|date',
+                "pay_date" => 'required_if:steady,true|date|date_format:Y-m-d',
                 "tax" => 'numeric|sometimes',
                 "description" => 'string|sometimes',
             ];
         }else if($this->action === "update"){
             return [
                 "income" => 'numeric|required',
-                "user" => 'required|numeric',
                 "name" => 'required|string',
-                "price" => "required|regex:/^\d{1,8}(\.\d{1,2})?$/|between:0.01,99999999.99",
                 "steady" => 'sometimes|boolean',
                 "pay_schedule" => ['required_if:steady,true',
                                     Rule::in(['monthly', 'bimonthly', 'trimonthly', 'semiannually', 'yearly'])
                                 ],
-                "pay_date" => 'required_if:steady,true|date',
+                "pay_date" => 'required_if:steady,true|date|date_format:Y-m-d',
                 "tax" => 'numeric|sometimes',
                 "description" => 'string|sometimes',
             ];
@@ -76,25 +76,15 @@ class ManageIncomesRequest extends FormRequest
         }
     }
 
-    // /**
-    //  * custom error messages
-    //  * 
-    //  * @return array
-    //  */
-    // public function messages()
-    // {
-    //     if($this->action === "add"){
-    //         return [
-    //             //
-    //         ];
-    //     }else if($this->action === "update"){
-    //         return [
-    //             //
-    //         ];
-    //     }else if($this->action === "delete"){
-    //         return [
-    //             //
-    //         ];
-    //     }
-    // }
+    /**
+     * custom error messages
+     * 
+     * @return array
+     */
+    public function messages()
+    {
+        return [
+            
+        ];
+    }
 }
