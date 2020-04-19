@@ -1,15 +1,17 @@
 <?php
 
-namespace App\Http\Requests\Income;
+namespace App\Http\Requests\Expence;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Validation\Rule;
 use \Auth;
-use App\Income;
 
-class ManageIncomesRequest extends FormRequest
+use App\Expence;
+use App\Helper;
+
+class ManageExpencesRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,16 +27,16 @@ class ManageIncomesRequest extends FormRequest
         if($this->action === "add"){
             return Auth::guard('api')->check();
         }else if($this->action === "update" || $this->action === "delete"){
-            if(empty($this->income) || Helper::getStringType($this->income) !== "integer"){
+            if(empty($this->expence) || Helper::getStringType($this->expence) !== "integer"){
                 return false;
             }
 
             // not existing or deleted
-            if(empty((new Income)->income($this->income))){
+            if(empty((new Expence)->expence($this->expence))){
                 return false;
             }
 
-            return Income::canModify(Auth::guard('api')->id(), $this->income) && Auth::guard('api')->check();
+            return Expence::canModify(Auth::guard('api')->id(), $this->expence) && Auth::guard('api')->check();
         }
 
         return false;
@@ -68,7 +70,7 @@ class ManageIncomesRequest extends FormRequest
             ];
         }else if($this->action === "update"){
             return [
-                "income" => 'numeric|required',
+                "expence" => 'numeric|required',
                 "name" => 'required|string',
                 "steady" => 'sometimes|boolean',
                 "pay_schedule" => ['required_if:steady,true',
@@ -80,7 +82,7 @@ class ManageIncomesRequest extends FormRequest
             ];
         }else if($this->action === "delete"){
             return [
-                "income" => 'required|numeric',
+                "expence" => 'required|numeric',
             ];
         }
     }

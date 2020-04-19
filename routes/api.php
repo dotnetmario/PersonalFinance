@@ -49,15 +49,31 @@ Route::group(['prefix' => 'incomes', 'middleware' => 'auth:api'], function() {
     Route::group(['prefix' => 'transactions'], function() {
         // get income transactions (done)
         Route::post('/', 'IncomeTransactionsController@transactions');
-        // manage income transactions add/edit/delete
+        // manage income transactions add/edit/delete (done)
         Route::post('/manage', 'IncomeTransactionsController@manage');
     });
 });
 
 // expences routes
 Route::group(['prefix' => 'expences', 'middleware' => 'auth:api'], function() {
-    // get expences
-    Route::post('/', 'ExpencesController@incomes');
-    // add/edit/delete expence
+    // get expences (done)
+    Route::post('/', 'ExpencesController@expences');
+    // add/edit/delete expence (done)
     Route::post('/manage', 'ExpencesController@manage');
+
+    // prices
+    Route::group(['prefix' => 'prices'], function() {
+        // get income prices (done)
+        Route::post('/', 'ExpencePricesController@prices');
+        // manage income prices add/edit/delete (done)
+        Route::post('/manage', 'ExpencePricesController@manage');
+    });
+
+    // transactions
+    Route::group(['prefix' => 'transactions'], function() {
+        // get income transactions (done)
+        Route::post('/', 'ExpenceTransactionsController@transactions');
+        // manage income transactions add/edit/delete (done)
+        Route::post('/manage', 'ExpenceTransactionsController@manage');
+    });
 });

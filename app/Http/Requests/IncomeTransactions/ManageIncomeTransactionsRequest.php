@@ -28,6 +28,15 @@ class ManageIncomeTransactionsRequest extends FormRequest
             }
         // }else if($this->action == "update" || $this->action == "delete"){ // edit desabled
         }else if($this->action == "delete"){
+            if(empty($this->income_t) || Helper::getStringType($this->income_t) !== "integer"){
+                return false;
+            }
+
+            // not existing or deleted
+            if(empty((new IncomeTransaction)->transaction($this->income_t))){
+                return false;
+            }
+
             if(Auth::guard('api')->check() && IncomeTransaction::canModify(Auth::id(), $this->income_t)){
                 return true;
             }
@@ -36,6 +45,13 @@ class ManageIncomeTransactionsRequest extends FormRequest
         return false;
     }
 
+    /**
+     * code to return error messages as a response JSON
+     */
+    protected function failedValidation(Validator $validator) {
+        throw new HttpResponseException(response()->json($validator->errors(), 422));
+    }
+    
     /**
      * Get the validation rules that apply to the request.
      *
@@ -58,7 +74,7 @@ class ManageIncomeTransactionsRequest extends FormRequest
         // }
         else if($this->action == "delete"){
             return [
-                "income_t" => "required|string"
+                "income_t" => "required|numeric"
             ];
         }
     }

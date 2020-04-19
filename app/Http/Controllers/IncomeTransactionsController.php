@@ -74,16 +74,15 @@ class IncomeTransactionsController extends Controller
         // add
         if($request->action == "add"){
             $income_t = $income_t->add($params);
-            // need condition to send back the appropriate message and code
-            $message = trans('incometrans.income-price-created');
+            $message = trans('incometrans.income-trans-created');
             $code = 201;
-        }else if($request->action == "update"){ // update
+        }else if($request->action == "update"){ // update // update is desabled at the moment
             $income_t = $income_t->edit($params);
-            $message = trans('incomeprice.income-price-updated');
+            $message = trans('incomeprice.income-trans-updated');
             $code = 200;
         }else if($request->action == "delete"){ // delete
             $income_t = $income_t->softDelete($params);
-            $message = trans('incomeprice.income-price-deleted');
+            $message = trans('incomeprice.income-trans-deleted');
             $code = 200;
         }
 

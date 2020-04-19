@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests\Income;
+namespace App\Http\Requests\Expence;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Contracts\Validation\Validator;
@@ -8,9 +8,9 @@ use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Auth;
 
-use App\Income;
+use App\Expence;
 
-class GetIncomesRequest extends FormRequest
+class GetExpencesRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -20,11 +20,12 @@ class GetIncomesRequest extends FormRequest
     public function authorize()
     {
         if(Auth::guard('api')->check()){
-            if(!empty($this->income)){
-                if(!Income::canModify(Auth::id(), $this->income)){
+            if(!empty($this->expence)){
+                if(!Expence::canModify(Auth::id(), $this->expence)){
                     return false;
                 }
             }
+
             return true;
         }
 
@@ -49,8 +50,8 @@ class GetIncomesRequest extends FormRequest
             'limit' => 'nullable|numeric',
             'day' => 'numeric|nullable',
             'month' => 'required_with:day|numeric|nullable',
-            'year' => 'required_without:income|numeric|nullable',
-            'income' => 'sometimes|numeric',
+            'year' => 'required_without:expence|numeric|nullable',
+            'expence' => 'sometimes|numeric',
         ];
     }
 

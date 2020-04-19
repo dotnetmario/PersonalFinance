@@ -28,6 +28,16 @@ class ManageIncomePricesRequest extends FormRequest
                 return true;
             }
         }else if($this->action == "update" || $this->action == "delete"){
+            if(empty($this->income_p) || Helper::getStringType($this->income_p) !== "integer"){
+                return false;
+            }
+
+            // not existing or deleted
+            if(empty((new IncomePrice)->prices(null, $this->income_p))){
+                return false;
+            }
+            
+
             if(Auth::guard('api')->check() && IncomePrice::canModify(Auth::id(), $this->income_p)){
                 return true;
             }
