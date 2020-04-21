@@ -4,9 +4,9 @@ Classes :
     Income :
         desc => represent income stream (salaries)
         Fields :
+            User => User owner 
             Name => name of the income (Main job, Renting, freelancing ....)
             Description => description of the Income
-            Amount => the amount of money the income is generating
             Steady => the imcome is always generated each period of time
             PaymentScheduale => how the payment is set (each month, other month, trimister)
             Payday => the day of the payment is set
@@ -15,9 +15,9 @@ Classes :
     Expense :
         desc => the different expances (groceries, rent, gas, morgage)
         Fields :
+            User => User owner 
             Name => Expance name
             Description => description of the expance
-            Amount => how much it costed
             Steady => is the payment set to be taken every month
             PaymentScheduale => how the payment is set (each month, other month, trimister)
             Payday => the day of the payment is set
@@ -32,8 +32,13 @@ Classes :
 
 Keeping tabs :
     User registration is done, seems like it's all good but you never know
+    Income, IncomePrice, IncomeTransaction crud is done (also need alot of testing, phpunit)
+    Expence, ExpencePrice, ExpenceTransaction crud is done (also need alot of testing, phpunit)
 
 
 Next :
-    User email verification
-    Incomes CRUD (you know the deal)
+    Need a event system to automaticly update the balance of a user in case of an 
+    income or expence transaction
+
+    Need to find an efficient way to calculate the steady incomes/expences without user interference
+    the solution has to be light on resources with minimal read/writes to the database

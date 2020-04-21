@@ -7,12 +7,6 @@ use Illuminate\Http\Request;
 // models
 use App\Income;
 
-use App\User;
-use App\IncomeTransaction;
-use App\ExpenceTransaction;
-use App\Balance;
-use App\Expence;
-
 // requests
 use App\Http\Requests\Income\ManageIncomesRequest;
 use App\Http\Requests\Income\GetIncomesRequest;
@@ -153,11 +147,11 @@ class IncomesController extends Controller
         //     'message' => trans('income.incomes'),
         // ], 200);
 
-        $incomes = Expence::all();
+        // $incomes = Expence::all();
 
-        foreach($incomes as $i){
-            $i->created_at = \Carbon\Carbon::now()->subDays(rand(1, 300));
-            $i->save();
-        }
+        // foreach($incomes as $i){
+        //     $i->created_at = \Carbon\Carbon::now()->subDays(rand(1, 300));
+        //     $i->save();
+        // }
     }
 }

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests\IncomePrices;
+namespace App\Http\Requests\ExpencePrices;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Contracts\Validation\Validator;
@@ -8,10 +8,9 @@ use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
 
-use App\IncomePrice;
-use App\Helper;
+use App\ExpencePrice;
 
-class ManageIncomePricesRequest extends FormRequest
+class ManageExpencePricesRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,21 +24,21 @@ class ManageIncomePricesRequest extends FormRequest
         }
 
         if($this->action == "add"){
-            if(Auth::guard('api')->check() && IncomePrice::canAddPrice(Auth::id(), $this->income)){
+            if(Auth::guard('api')->check() && ExpencePrice::canAddPrice(Auth::id(), $this->expence)){
                 return true;
             }
         }else if($this->action == "update" || $this->action == "delete"){
-            if(empty($this->income_p) || Helper::getStringType($this->income_p) !== "integer"){
+            if(empty($this->expence_p) || Helper::getStringType($this->expence_p) !== "integer"){
                 return false;
             }
 
             // not existing or deleted
-            if(empty((new IncomePrice)->prices(null, $this->income_p))){
+            if(empty((new ExpencePrice)->prices(null, $this->expence_p))){
                 return false;
             }
             
 
-            if(Auth::guard('api')->check() && IncomePrice::canModify(Auth::id(), $this->income_p)){
+            if(Auth::guard('api')->check() && ExpencePrice::canModify(Auth::id(), $this->expence_p)){
                 return true;
             }
         }
@@ -58,25 +57,24 @@ class ManageIncomePricesRequest extends FormRequest
      * Get the validation rules that apply to the request.
      *
      * @return array
-     * "income", "price", "active",
      */
     public function rules()
     {
         if($this->action == "add"){
             return [
-                "income" => "required|numeric",
+                "expence" => "required|numeric",
                 "price" => "required|regex:/^\d{1,8}(\.\d{1,2})?$/|between:0.01,99999999.99",
                 "active" => "boolean"
             ];
         }else if($this->action == "update"){
             return [
-                "income_p" => "required|numeric",
+                "expence_p" => "required|numeric",
                 "price" => "regex:/^\d{1,8}(\.\d{1,2})?$/|between:0.01,99999999.99",
                 "active" => "boolean"
             ];
         }else if($this->action == "delete"){
             return [
-                "income_p" => "required|numeric"
+                "expence_p" => "required|numeric"
             ];
         }
     }

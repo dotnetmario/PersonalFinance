@@ -78,4 +78,16 @@ class ManageIncomeTransactionsRequest extends FormRequest
             ];
         }
     }
+
+    /**
+     * Custom error messages
+     * 
+     * @return array
+     */
+    public function messages()
+    {
+        return [
+
+        ];
+    }
 }

@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\IncomeTransaction;
 use App\Helper;
 
-use Illuminate\Http\Request;
 use App\Http\Requests\IncomeTransactions\GetIncomeTransactionsRequest;
 use App\Http\Requests\IncomeTransactions\ManageIncomeTransactionsRequest;
 
@@ -44,7 +43,7 @@ class IncomeTransactionsController extends Controller
             $code = 200;
         }
 
-        if(!empty($prices)){
+        if(!empty($trans)){
             return response()->json([
                 'transactions' => $trans,
                 'message' => $message
@@ -86,7 +85,7 @@ class IncomeTransactionsController extends Controller
             $code = 200;
         }
 
-        if(!empty($income_p)){
+        if(!empty($income_t)){
             return response()->json([
                 'income_transactions' => $income_t,
                 'message' => $message

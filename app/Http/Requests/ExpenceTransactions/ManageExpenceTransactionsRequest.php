@@ -1,17 +1,15 @@
 <?php
 
-namespace App\Http\Requests\IncomePrices;
+namespace App\Http\Requests\ExpenceTransactions;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Validation\Rule;
 
-use App\IncomePrice;
-use App\Helper;
+use App\ExpenceTransaction;
 
-class ManageIncomePricesRequest extends FormRequest
+class ManageExpenceTransactionsRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,21 +23,21 @@ class ManageIncomePricesRequest extends FormRequest
         }
 
         if($this->action == "add"){
-            if(Auth::guard('api')->check() && IncomePrice::canAddPrice(Auth::id(), $this->income)){
+            if(Auth::guard('api')->check() && ExpenceTransaction::canAddTrans(Auth::id(), $this->expence)){
                 return true;
             }
-        }else if($this->action == "update" || $this->action == "delete"){
-            if(empty($this->income_p) || Helper::getStringType($this->income_p) !== "integer"){
+        // }else if($this->action == "update" || $this->action == "delete"){ // edit desabled
+        }else if($this->action == "delete"){
+            if(empty($this->expence_t) || Helper::getStringType($this->expence_t) !== "integer"){
                 return false;
             }
 
             // not existing or deleted
-            if(empty((new IncomePrice)->prices(null, $this->income_p))){
+            if(empty((new ExpenceTransaction)->transaction($this->expence_t))){
                 return false;
             }
-            
 
-            if(Auth::guard('api')->check() && IncomePrice::canModify(Auth::id(), $this->income_p)){
+            if(Auth::guard('api')->check() && ExpenceTransaction::canModify(Auth::id(), $this->expence_t)){
                 return true;
             }
         }
@@ -53,30 +51,30 @@ class ManageIncomePricesRequest extends FormRequest
     protected function failedValidation(Validator $validator) {
         throw new HttpResponseException(response()->json($validator->errors(), 422));
     }
-
+    
     /**
      * Get the validation rules that apply to the request.
      *
      * @return array
-     * "income", "price", "active",
      */
     public function rules()
     {
         if($this->action == "add"){
             return [
-                "income" => "required|numeric",
+                "expence" => "required|numeric",
                 "price" => "required|regex:/^\d{1,8}(\.\d{1,2})?$/|between:0.01,99999999.99",
-                "active" => "boolean"
             ];
-        }else if($this->action == "update"){
+        }
+        // update is desabled at the moment
+        // else if($this->action == "update"){
+        //     return [
+        //         "income_t" => "required|numeric",
+        //         "price" => "regex:/^\d{1,8}(\.\d{1,2})?$/|between:0.01,99999999.99",
+        //     ];
+        // }
+        else if($this->action == "delete"){
             return [
-                "income_p" => "required|numeric",
-                "price" => "regex:/^\d{1,8}(\.\d{1,2})?$/|between:0.01,99999999.99",
-                "active" => "boolean"
-            ];
-        }else if($this->action == "delete"){
-            return [
-                "income_p" => "required|numeric"
+                "expence_t" => "required|numeric"
             ];
         }
     }
